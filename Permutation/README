@@ -1,0 +1,28 @@
+This small java program will print out all permutations of a given string.
+
+For example, given a string "abcd", it will print
+
+abcd
+bacd
+bcad
+bcda
+acbd
+cabd
+cbad
+cbda
+acdb
+cadb
+cdab
+cdba
+abdc
+badc
+bdac
+bdca
+adbc
+dabc
+dbac
+dbca
+adcb
+dacb
+dcab
+dcba
