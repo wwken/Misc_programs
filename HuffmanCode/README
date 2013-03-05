@@ -1,0 +1,15 @@
+I wrote this small program in Scala in which it calculates the Huffman coding of the each of the given character (or input).  Huffman coding is a very interesting algorithm to compress data.  For the more details of Huffman coding, there is plenty of the resources in the Internet:
+
+http://en.wikipedia.org/wiki/Huffman_coding
+http://mathworld.wolfram.com/HuffmanCoding.html
+
+
+In a scala interpreter, type: 
+
+huffman1(List(("a", 90), ("b", 35), ("c", 67), ("d", 2), ("e", 13), ("f", 20), ("g", 39)))
+
+we will see:
+
+List((g,00), (c,01), (b,100), (d,10100), (e,10101), (f,1011), (a,11))
+
+which is the list of the calculated Huffman codings for each of the input character (with its weighted as denoted by integer)
