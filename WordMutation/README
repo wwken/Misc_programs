@@ -1,0 +1,62 @@
+/**
+ * WordMutation
+ * © 2013 Ken Wu All rights reserved. 
+ */
+
+This program calculates all the ways to transform a string from one to another by mutating only one character at each time.  Also, each intermediate mutation must be a valid string inside an English dictionary.  For example, to mutate a string "boy" to "eat", there are two ways:
+
+Way 1)
+	boy 
+	bay 
+	bat
+	eat
+	
+Or 
+
+Way 2)
+	boy
+	bot
+	bat
+	eat
+
+The goal of the program is to find such all possible ways.
+
+To run the program, download the WordMutation-v{$version}.jar file and issue this command :   
+java -cp WordMutation-v1.0.jar RunMain
+
+
+Appendix:
+Here is the sample input and output of the program implementation:
+=========================================================================================
+C:\Users\ken\workspace\WordMutation>java -cp WordMutation-v1.0.jar RunMain
+Please enter a word you want to mutate from:
+boy
+Please enter a word you want to mutate to:
+eat
+To mutate the word from 'boy' to 'eat', there are 2 ways to do that as followed:
+
+boy -> bay -> bat -> eat
+boy -> bot -> bat -> eat
+
+
+Please enter a word you want to mutate from:
+line
+Please enter a word you want to mutate to:
+date
+To mutate the word from 'line' to 'date', there are 3 ways to do that as followe
+d:
+line -> dine -> dane -> date
+line -> lane -> dane -> date
+line -> lane -> late -> date
+
+
+Please enter a word you want to mutate from:
+food
+Please enter a word you want to mutate to:
+told
+To mutate the word from 'food' to 'told', there are 1 ways to do that as followe
+d:
+food -> fold -> told
+
+=========================================================================================
+ 
