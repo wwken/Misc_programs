@@ -1,9 +1,9 @@
 Here are some of the short algorithmic/brain teaser excerises which i have found fun to solve in the past and would like to share to you guys.  
 
-ChangeCoins		- written in Java
-HuffmanCode		- written in Scala
-Parentheses		- written in Java
-Permutation		- written in Java
-WordMutation	- written in Java
-
-Copyright © 2007 to 2013 Ken Wu
+ChangeCoins							- written in Java
+HuffmanCode							- written in Scala
+Parentheses							- written in Java
+Permutation							- written in Java
+WordMutation						- written in Java
+GeoLocatoinService_HTTP_RESTFUL		- written in Golang
+Copyright © 2007 to 2014 Ken Wu
