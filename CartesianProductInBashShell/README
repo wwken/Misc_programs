@@ -13,7 +13,3 @@ In your response, please send:
 
 
 Note: This program also included the all jUnitTestCases which will make sure the program will adhere to specifications
-
-To run the program:
-
-java runCartesianProductParser "a{b,c}d{e,f,g}hi"
