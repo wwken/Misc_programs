@@ -1,0 +1,5 @@
+Author: Ken Wu
+
+This program first reads the directory and parse and learn all articles inside and then it will random generate an essay based on what it learns previously.
+ 
+To run the program: ./EssayGenerator.py input/
