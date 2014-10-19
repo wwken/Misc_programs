@@ -1,0 +1,51 @@
+The data set contains 3 csv files: users.csv, purchases.csv and messages.csv, which contain anonymous profile data drawn from a random sample of users of one of our clients.
+
+The data was extracted from our production MongoDB server on 2014-04-28 (assume data on that day is only partially complete).
+users.csv
+
+A csv file with 24,049 rows and 2 columns. The first 6 rows of the file are:
+"user.id","signup.date"
+
+"5341475c4efa972750f5e00f",2014-04-06
+"52715cdeb6a88e9514b4da29",2013-10-30
+"52c3e99eb6a88e9514de886c",2014-01-01
+
+"51c35f15217c626224a939c1",2013-06-20
+"52893675b6a88e9514c08801",2013-11-17
+Each row corresponds to a user with these columns:
+user.id = a unique hashed ID for users
+signup.date = the date that a user signed up for this client
+purchases.csv
+
+A csv file with 19,673 rows and 3 columns. The first 6 rows of the file are:
+"user.id","purchase.date","purchase.count"
+
+"52cf890bb6a88e9514dfabb0",2014-01-10,1
+"52af26e1b6a88e9514d51818",2013-12-16,1
+"51bef32a217c626224a83abf",2013-06-17,2
+
+"51bef32a217c626224a83abf",2013-06-19,1
+"51e8ae74217c626224b55c54",2013-07-19,2
+Each row corresponds to a purchase date for a user, with these columns:
+user.id = a unique hashed ID for users
+purchase.date = the date that 1 or more purchases occurred on
+purchase.count = the number of purchases made by this user on this date
+messages.csv
+
+A csv file with 1,095,794 rows and 3 columns. The first 6 rows of the file are:
+"user.id","message.date","message.count"
+
+"5341475c4efa972750f5e00f",2014-04-22,2
+"5341475c4efa972750f5e00f",2014-04-17,2
+"5341475c4efa972750f5e00f",2014-04-14,2
+
+"5341475c4efa972750f5e00f",2014-04-15,2
+"5341475c4efa972750f5e00f",2014-04-10,2
+user.id = a unique hashed ID for users
+message.date = the date that 1 or more messages was sent to this user on
+message.count = the number of messages sent to this user on this date
+Questions
+
+Question 1: What percentage of users make a purchase in their first 90 days after sign up (excluding their sign up day)?
+Question 2: What percentage of users who purchased in the first 90 days received a message after their sign up date but before their first purchase date?
+Question 3: Is the number of messages a user receives in their first 90 days (excluding their sign up date) predictive of their propensity to make one or more purchases in the following 90 days? (yes/no)
