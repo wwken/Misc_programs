@@ -49,3 +49,9 @@ Questions
 Question 1: What percentage of users make a purchase in their first 90 days after sign up (excluding their sign up day)?
 Question 2: What percentage of users who purchased in the first 90 days received a message after their sign up date but before their first purchase date?
 Question 3: Is the number of messages a user receives in their first 90 days (excluding their sign up date) predictive of their propensity to make one or more purchases in the following 90 days? (yes/no)
+
+----------------------------------------------------------------------------------------------------------------------------------
+I use Spark and SparkSQL to implement the analytics calculations (the code is in UserStats.scala file) for answering the above 3 questions.  
+To run the program, please install Spark and its dependencies and use maven to build the Scala program (i.e. UserStats.scala) and run the following command:
+$SPARK_HOME/bin/spark-submit --class com.kw.datascience.userstats.UserStats --master local /home/ken/workspace-scala/SparkApps/target/SparkApps-1.0-SNAPSHOT.jar "/datawarehouse/csv/users.csv" "/datawarehouse/csv/purchases.csv" "/datawarehouse/csv/messages.csv"
+
