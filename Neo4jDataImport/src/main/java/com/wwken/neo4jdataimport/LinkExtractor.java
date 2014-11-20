@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import com.wwken.neo4jdataimport.ProgressCounter;
 import com.wwken.neo4jdataimport.engine.StaxExtractor;
 
 public class LinkExtractor extends StaxExtractor {

@@ -9,13 +9,14 @@ package com.wwken.neo4jdataimport.engine;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.neo4j.unsafe.batchinsert.BatchInserter;
 import org.neo4j.unsafe.batchinsert.BatchInserters;
 
 import com.wwken.neo4jdataimport.domain.WikiLabel;
 
 public class GraphImporter {
-
+	private Logger log = Logger.getLogger(GraphImporter.class);
     private final BatchInserter inserter;
     private final Map<String, Long> inMemoryIndex;
 
@@ -26,22 +27,22 @@ public class GraphImporter {
     }
 
     public void createNodes(String fileName) throws Exception {
-        System.out.println("Importing pages...");
+    	log.info("Importing pages...");
         NodeExtractor nodeCreator = new NodeExtractor(inserter, inMemoryIndex);
         long startTime = System.currentTimeMillis();
         nodeCreator.parse(fileName);
         long elapsedSeconds = (System.currentTimeMillis() - startTime) / 1000;
-        System.out.printf("\n%d pages imported in %d seconds.\n", nodeCreator.getPageCount(), elapsedSeconds);
+        log.info("Imported "+nodeCreator.getPageCount()+" pages in "+elapsedSeconds+" seconds.\n");
     }
 
     public void createRelationships(String fileName) throws Exception {
-        System.out.println("Importing links...");
+    	log.info("Importing links...");
         RelationshipExtractor relationshipCreator = new RelationshipExtractor(inserter, inMemoryIndex);
         long startTime = System.currentTimeMillis();
         relationshipCreator.parse(fileName);
         long elapsedSeconds = (System.currentTimeMillis() - startTime) / 1000;
-        System.out.printf("\n%d links imported in %d seconds; %d broken links ignored\n",
-                relationshipCreator.getLinkCount(), elapsedSeconds, relationshipCreator.getBadLinkCount());
+        log.info("Imported "+relationshipCreator.getLinkCount()+" links in "+elapsedSeconds+""
+        		+ " seconds; "+relationshipCreator.getBadLinkCount()+" broken links ignored");
     }
 
     public void finish() {

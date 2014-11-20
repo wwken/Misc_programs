@@ -6,8 +6,13 @@
 
 package com.wwken.neo4jdataimport;
 
-public class ProgressCounter {
+import com.wwken.neo4jdataimport.DataImporterRunner;
 
+import org.apache.log4j.Logger;
+
+public class ProgressCounter {
+	private static Logger log = Logger.getLogger(ProgressCounter.class);
+	
     private static final int THOUSAND = 1000;
     private static final int SMALL_STEP = 1 * THOUSAND;
     private static final int BIG_STEP = 50 * THOUSAND;
@@ -21,9 +26,9 @@ public class ProgressCounter {
     public void increment() {
         count++;
         if (count % BIG_STEP == 0) {
-            System.out.println(". "+ count / THOUSAND +"k");
+        	log.debug(". "+ count / THOUSAND +"k");
         } else if (count % SMALL_STEP == 0) {
-            System.out.print(".");
+        	log.debug(".");
         }
     }
 

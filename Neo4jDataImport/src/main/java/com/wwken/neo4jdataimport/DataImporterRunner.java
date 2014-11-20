@@ -13,12 +13,14 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.apache.log4j.Logger;
 import org.codehaus.stax2.XMLOutputFactory2;
 
+import com.wwken.neo4jdataimport.LinkExtractor;
 import com.wwken.neo4jdataimport.engine.GraphImporter;
 
 public class DataImporterRunner {
-
+	private static Logger log = Logger.getLogger(DataImporterRunner.class);
 	final private String outputFile;
 	final private String dataDir;
     public DataImporterRunner(String o, String d) {
@@ -28,7 +30,7 @@ public class DataImporterRunner {
 
 	public static void main(String[] args) throws Exception {
         if (args.length < 2) {
-            System.out.println("USAGE: ExtractLinks <output-file> <data-dir>");
+        	log.error("USAGE: ExtractLinks <output-file> <data-dir>");
             System.exit(255);
         }
         DataImporterRunner self = new DataImporterRunner(args[0], args[1]);
@@ -41,7 +43,7 @@ public class DataImporterRunner {
 	}
 
 	private void extract() throws IOException, XMLStreamException {
-        System.out.println("Parsing pages and extracting links...");
+		log.info("Parsing pages and extracting links...");
         
         long startTime = System.currentTimeMillis();
         XMLOutputFactory outputFactory = XMLOutputFactory2.newInstance();
