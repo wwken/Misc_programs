@@ -1,3 +1,4 @@
+<pre>
 Here are some of the short algorithmic/brain teaser excerises which i have found fun to solve in the past and would like to share to you guys.  
 
 BigDataProblems-UserStats
@@ -40,3 +41,4 @@ WordMutation
 
 
 Copyright © 2007 to 2014 Ken Wu
+</pre>
