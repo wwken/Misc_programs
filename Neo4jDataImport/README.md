@@ -1,3 +1,6 @@
+<h1>Neo4jDataImport</h1>
+
+A tool to import Wikipedia pages and the links between them into Neo4j graph database. 
 
 <b>To build the jar file, run:</b>
 	mvn clean package
@@ -12,6 +15,6 @@ where the program will read the standard input as piped from decompressing the c
 
 Now the Neo4j database should have all the above data populated.
 
-Here is the related blog: http://wwken.wordpress.com/2014/11/20/tutorial-how-to-bulk-import-wikipedia-data-into-the-neo4j-graph-database-programatically/
+Here is the related blog and screen shots: http://wwken.wordpress.com/2014/11/20/tutorial-how-to-bulk-import-wikipedia-data-into-the-neo4j-graph-database-programatically/
 
 
