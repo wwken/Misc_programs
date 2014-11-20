@@ -31,7 +31,7 @@ public class DataImporterRunner {
 	public static void main(String[] args) throws Exception {
         if (args.length < 2) {
         	log.error("USAGE: ExtractLinks <output-file> <data-dir>");
-            System.exit(255);
+            System.exit(1);
         }
         DataImporterRunner self = new DataImporterRunner(args[0], args[1]);
         self.run();
@@ -60,7 +60,7 @@ public class DataImporterRunner {
         writer.close();
         
         long elapsedSeconds = (System.currentTimeMillis() - startTime) / 1000;
-        System.out.printf("\n%d pages parsed in %d seconds.\n", linkExtractor.getPageCount(), elapsedSeconds);
+        log.info("Parsed "+linkExtractor.getPageCount()+" pages in "+elapsedSeconds+" seconds.");
     }
 	
 	private void load() throws Exception {
