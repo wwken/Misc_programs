@@ -1,6 +1,11 @@
 <pre>
 Here are some of the short algorithmic/brain teaser excerises which i have found fun to solve in the past and would like to share to you guys.  
 
+Bash-b
+	- written in perl
+	- Enable the bash shell quickly go back to a specific parent directory or N levels up instead of typing cd ../../.. redundantly
+	- located in: https://github.com/wwken/bash-b
+
 BigDataProblems-UserStats
 	- written in Scala
 	- An example code to use Apache Spark to calculate some metrics based on the input data provided
