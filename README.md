@@ -3,7 +3,7 @@ Here are some of the short algorithmic/brain teaser excerises which i have found
 ###Bash-b
 	- written in perl
 	- Enable the bash shell quickly go back to a specific parent directory or N levels up instead of typing cd ../../.. redundantly
-	- located in: <a href="https://github.com/wwken/bash-b">bash-b</a>
+	- located in: https://github.com/wwken/bash-b
 
 ###BigDataProblems-UserStats
 	- written in Scala
