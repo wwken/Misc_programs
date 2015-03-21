@@ -39,6 +39,10 @@ PointOfSaleCheckOut
 WordMutation
 	- written in Java
 
+Vagrant-Puppet
+	- written in ruby 
+	- It contains some useful scripts that build the virtual box using vagrant and puppet
+
 
 Copyright © 2007 to 2014 Ken Wu
 </pre>
