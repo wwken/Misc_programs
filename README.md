@@ -1,43 +1,47 @@
-<pre>
 Here are some of the short algorithmic/brain teaser excerises which i have found fun to solve in the past and would like to share to you guys.  
 
-BigDataProblems-UserStats
-	- written in Scala
-	- An example code to use Apache Spark to calculate some metrics based on the input data provided
+###Bash-b
+- written in perl
+- Enable the bash shell quickly go back to a specific parent directory or N levels up instead of typing cd ../../.. redundantly
+- located in: https://github.com/wwken/bash-b
 
-ChangeCoins
-	- written in Java
+###BigDataProblems-UserStats
+- written in Scala
+- An example code to use Apache Spark to calculate some metrics based on the input data provided
 
-CartesianProductInBashShell
-	- written in Java
+###ChangeCoins
+- written in Java
 
-GeoLocatoinService_HTTP_RESTFUL (unfinished)
-	- written in Golang
+###CartesianProductInBashShell
+- written in Java
 
-HuffmanCode
-	- written in Scala
+###GeoLocatoinService_HTTP_RESTFUL (unfinished)
+- written in Golang
 
-MachineLearning-EssayGenerator
-	- written in Python
-	- Generated an random essay based on the input articles it has read as input, in a machine learning appoarch
+###HuffmanCode
+- written in Scala
 
-Neo4jDataImport
-	- written in Java
-	- It is a tool to import the wikipedia raw data into the Neo4j graph database. 
+###MachineLearning-EssayGenerator
+- written in Python
+- Generated an random essay based on the input articles it has read as input, in a machine learning appoarch
 
-Parentheses
-	- written in Java
-	- This algorithm will print all valid (e.g., properly opened and closed) combinations of n-pairs of parentheses.
+###Neo4jDataImport
+- written in Java
+- It is a tool to import the wikipedia raw data into the Neo4j graph database. 
 
-Permutation
-	- written in Java
-	- print out all permutations of a given string.
+###Parentheses
+- written in Java
+- This algorithm will print all valid (e.g., properly opened and closed) combinations of n-pairs of parentheses.
 
-PointOfSaleCheckOut
-	- written in Java
+###Permutation
+- written in Java
+- print out all permutations of a given string.
 
-WordMutation
-	- written in Java
+###PointOfSaleCheckOut
+- written in Java
+
+###WordMutation
+- written in Java
 
 Vagrant-Puppet
 	- written in ruby 
@@ -45,4 +49,3 @@ Vagrant-Puppet
 
 
 Copyright © 2007 to 2014 Ken Wu
-</pre>
