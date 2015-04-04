@@ -1,0 +1,3 @@
+[submodule "Vagrant-Puppet/vagrant-dev-bigdata/puppet/modules/stdlib"]
+	path = Vagrant-Puppet/vagrant-dev-bigdata/puppet/modules/stdlib
+	url = ../../puppetlabs/puppetlabs-stdlib.git

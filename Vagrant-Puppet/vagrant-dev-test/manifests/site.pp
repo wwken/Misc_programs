@@ -22,9 +22,15 @@ file { '/etc/profile.d/java_home.sh':
 	require => Package['openjdk-7-jdk']
 }
 
+$package_http_server = $::operatingsystem ? {
+      /(?i:Ubuntu|Debian|Mint)/ => 'apache2',
+      default                   => 'httpd',
+    }
 
-$dependencies = [ 'curl', 'libjansi-java', 'openjdk-7-jdk', 'scala', 'git', 'maven'] 
+$dependencies = [ 'curl', 'libjansi-java', 'openjdk-7-jdk', 'scala', 'git', 'maven', $package_http_server] 
 package { $dependencies: ensure => 'present' }
+
+
 
 
 #Install the hadoop

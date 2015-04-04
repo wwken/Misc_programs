@@ -33,7 +33,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :private_network, ip: "192.168.43.10"
 
   config.vm.provider "virtualbox" do |v|
-    v.name = "ken-box-1.local"
+    v.name = "ken-box-2.local"
     v.customize [
        "modifyvm", :id, 
        "--memory", 2048
@@ -55,7 +55,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :shell, :inline => "apt-get update"
   
    config.vm.provision :puppet, :options => ['--verbose', '--debug'] do |puppet|
-     puppet.facter = {'hostname' => 'ken-box-1.local'}
+     puppet.facter = {'hostname' => 'ken-box-2.local'}
      puppet.manifests_path = "manifests"
      puppet.manifest_file  = "site.pp"
      #puppet.module_path = "modules"
