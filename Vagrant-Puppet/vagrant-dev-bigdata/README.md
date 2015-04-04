@@ -49,3 +49,6 @@ vagrant@ken-node001:~$ <b>ps -ef | grep datanode</b>
   vagrant  11727 11623  0 15:54 pts/0    00:00:00 grep --color=auto datanode
 vagrant@ken-node001:~$
 </pre>
+
+You should be able to see something like below (If everything is setup correctly):
+<img src="images/complete-setup.png">
