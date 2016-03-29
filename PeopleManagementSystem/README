@@ -1,0 +1,4 @@
+To run the unit tests:
+    ```bash
+    nosetests
+    ```
