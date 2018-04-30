@@ -82,10 +82,14 @@ class MainObj:
     }
 
     def isalpha(self, s):
-        for c in s:
-            if not (c.isalpha() or c == ' '):
-                return False
-        return True
+        s = s.strip()
+        if s:
+            for c in s:
+                if not (c.isalpha() or c == ' '):
+                    return False
+            return True
+        else:
+            return False
 
     def remove_noise(self, t):
         t = t.strip()

@@ -116,5 +116,11 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
                          ['Interactive Marketing'],
                          ['Century 21'])
 
+    def test_6(self):
+        self._test_basic('President - Advertiser Platforms',
+                         ['President'],
+                         ['Advertiser Platforms'],
+                         None)
+
 if __name__ == '__main__':
     unittest.main()
