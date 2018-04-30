@@ -12,11 +12,13 @@ class MainObj:
         self.levels = {self.CURRENT: {}}
         self.functions = {self.CURRENT: {}}
         self.industries = {self.CURRENT: {}}
+        self.SKIP_PARSE_FUNCTION = False
 
     def reset_all_currents(self):
         self.levels[self.CURRENT] = {}
         self.functions[self.CURRENT] = {}
         self.industries[self.CURRENT] = {}
+        self.SKIP_PARSE_FUNCTION = False
 
     @classmethod
     def extract_line(cls, input_file):
@@ -122,6 +124,9 @@ class MainObj:
                 return self.remove_noises_for_function(t)
             elif t[0:1] == '/':
                 t = t[1:].strip()
+                return self.remove_noises_for_function(t)
+            elif t[len(t)-1:len(t)] == '/':
+                t = t[:len(t)-1].strip()
                 return self.remove_noises_for_function(t)
         return t
 
@@ -275,10 +280,14 @@ class MainObj:
                 if max_key != 'Chief' and max_key != 'CHIEF' and max_key != 'chief':
                     max_key = max_length_key
 
-            try_cheif = self.try_parse_chief(max_key, t)
+            try_cheif = self.try_parse_chief('Chief', t)
+            if not try_cheif:
+                try_cheif = self.try_parse_chief('chief', t)
             return try_cheif if try_cheif else max_key
         elif len(max_keys) == 1:
-            try_cheif = self.try_parse_chief(max_keys[0], t)
+            try_cheif = self.try_parse_chief('Chief', t)
+            if not try_cheif:
+                try_cheif = self.try_parse_chief('chief', t)
             return try_cheif if try_cheif else max_keys[0]
         else:
             return None
@@ -304,7 +313,14 @@ class MainObj:
                     parsed_title = self.parse_function_of(this_title, key)
                     this_title = parsed_title
                 else:
-                    this_title = this_title.replace(key, '')
+                    tmp_this_title = this_title.replace(key, '')
+                    tmp_this_title = tmp_this_title.strip()
+                    # test the next word if it is a word, mostly it is going to be a function, so parse it
+                    ta = tmp_this_title.split(' ')
+                    if ta and ta[0].isalpha():
+                        if not self.get_best_level(tmp_this_title):
+                            tmp_this_title = self.parse_function(tmp_this_title, bypass_chief_check=True)
+                    this_title = tmp_this_title
                 if this_title[0:2] == ', ':
                     this_title = this_title[2:]
                 if this_title[0:1] == '&':
@@ -324,6 +340,10 @@ class MainObj:
                         return this_title
                     else:
                         # This means we are done since beginning was something and returned nothing
+                        if self.functions[self.CURRENT] and not self.industries[self.CURRENT]:
+                            if this_title and 'at ' in this_title:
+                                self.SKIP_PARSE_FUNCTION = True
+                                return this_title
                         return ''
                 else:
                     return this_title
@@ -392,7 +412,7 @@ class MainObj:
                     return True
         return False
 
-    def parse_function(self, that_title):
+    def parse_function(self, that_title, bypass_chief_check=False):
         def function_is_in_title(k, t):
             try:
                 if k in t:
@@ -401,6 +421,8 @@ class MainObj:
                 return -1
             return -1
 
+        if self.SKIP_PARSE_FUNCTION:
+            return that_title
         stored = None
         for key, value in self.predefined_functions.items():
             if function_is_in_title(key, that_title) > -1:
@@ -413,12 +435,13 @@ class MainObj:
             that_title = self.remove_noises_for_function(self.remove_noises(that_title.strip()))
             all_functions = self.split(that_title, delim=',')
             if all_functions and len(all_functions) > 0:
-                if not self.this_person_has_chief_title(self.levels[self.CURRENT]):
+                if not self.this_person_has_chief_title(self.levels[self.CURRENT]) or bypass_chief_check:
                     up_to = 0
                     if len(all_functions) > 1:
                         up_to = 1   # leave the last one for industries
                     for i in range(0, len(all_functions) - up_to):
                         this_function = all_functions[i]
+                        this_function = self.remove_noises_for_function(this_function)
                         stored = self.store(this_function, self.functions)
                         if stored:
                             that_title = that_title.replace(this_function, '')

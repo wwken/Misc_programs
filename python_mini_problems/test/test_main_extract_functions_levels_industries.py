@@ -93,7 +93,10 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
         self._test_basic('fixtures/titles_5.txt', {'SVP': 1, 'Editor in Chief': 1}, None, {'Content Marketing & Syndication': 1})
 
     def test_all_6(self):
-        self._test_basic('fixtures/titles_6.txt', {'Executive Vice President': 1, 'Chief Counsel': 1}, {'Cable Entertainment Legal Affairs': 1}, None)
+        self._test_basic('fixtures/titles_6.txt',
+                         ['Executive Vice President', 'Chief Counsel'],
+                         ['Cable Entertainment Legal Affairs'],
+                         None)
 
     def test_1(self):
         self._test_basic('Chief Operating Officer (COO) & President', {'Chief Operating Officer': 1, 'President': 1}, None, None)
@@ -133,6 +136,12 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
                          ['GM','DVP'],
                          ['Global External Sales and Marketing'],
                          ['Kenmore, Craftsman, Diehard Brands'])
+
+    def test_7(self):
+        self._test_basic('Sr. Director Data Strategy & Architecture / Chief Data Officer',
+                         ['Chief Data Officer', 'Sr. Director'],
+                         ['Data Strategy & Architecture'],
+                         None)
 
 if __name__ == '__main__':
     unittest.main()
