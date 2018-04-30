@@ -54,16 +54,19 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
         self.assertEqual(f({'COO': 1, 'Chief Operating Officer': 1, 'President': 1}), {'Chief Operating Officer': 1, 'President': 1})
 
     def _test_basic(self, input_file, expected_levels, expected_functions=None, expected_industries=None):
+        # a should be of type dict
+        def _test(a, b):
+            if b:
+                if isinstance(b, (list,)):
+                    a = a.keys()
+            else:
+                b = {}
+            self.assertEqual(a, b)
         self.mainObj = MainObj()
         self.mainObj.analyze(input_file)
-        levels = self.mainObj.levels
-        self.assertEqual(levels, expected_levels)
-        if expected_functions:
-            functions = self.mainObj.functions
-            self.assertEqual(functions, expected_functions)
-        if expected_industries:
-            industries = self.mainObj.industries
-            self.assertEqual(industries, expected_industries)
+        _test(self.mainObj.levels, expected_levels)
+        _test(self.mainObj.functions, expected_functions)
+        _test(self.mainObj.industries, expected_industries)
 
     def test_all_1(self):
         self._test_basic('fixtures/titles_1.txt',
@@ -103,15 +106,15 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
 
     def test_4(self):
         self._test_basic('Director, Blackstone Launchpad @ NYU',
-                         {'Director': 1},
-                         {'Blackstone Launchpad': 1},
-                         {'NYU': 1})
+                         ['Director'],
+                         ['Blackstone Launchpad'],
+                         ['NYU'])
 
     def test_5(self):
         self._test_basic('Director, Interactive Marketing - Century 21',
-                         {'Director': 1},
-                         {'Interactive Marketing': 1},
-                         {'Century 21': 1})
+                         ['Director'],
+                         ['Interactive Marketing'],
+                         ['Century 21'])
 
 if __name__ == '__main__':
     unittest.main()
