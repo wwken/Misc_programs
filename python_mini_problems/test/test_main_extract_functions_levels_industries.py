@@ -167,6 +167,10 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
         self._test_basic('Founder, President & CEO',
                          ['Founder', 'President', 'CEO'], None, None)
 
+    def test_11(self):
+        self._test_basic('President and Chief Executive Officer / CEO',
+                         ['President', 'Chief Executive Officer'], None, None)
+
     # def test_8(self):
     #     self._test_basic('Chief of Staff, formerly Leader, Recruiting',
     #                      ['Chief of Staff'],

@@ -483,13 +483,15 @@ class MainObj:
                     function = t[0:pos]
                     that_title = self.parse_function_single(function)
                 else:
-                    if t not in self.levels[self.CURRENT]:
+                    if t not in self.levels:
                         t = self.remove_noises_for_industry(t)
-                        if t == '& CEO':
+                        if t == 'and  /':
                             print('dewwww')
                         stored = self.store(t, self.industries)
                         if stored:
                             that_title = that_title.replace(t, '').strip()
+                    else:
+                        self.levels[t] += 1
         return that_title
 
     def print_summary(self):
