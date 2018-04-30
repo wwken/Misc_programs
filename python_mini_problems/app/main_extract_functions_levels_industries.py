@@ -13,12 +13,14 @@ class MainObj:
         self.functions = {self.CURRENT: {}}
         self.industries = {self.CURRENT: {}}
         self.SKIP_PARSE_FUNCTION = False
+        self.DONE_THIS_ROUND = True
 
     def reset_all_currents(self):
         self.levels[self.CURRENT] = {}
         self.functions[self.CURRENT] = {}
         self.industries[self.CURRENT] = {}
         self.SKIP_PARSE_FUNCTION = False
+        self.DONE_THIS_ROUND = True
 
     @classmethod
     def extract_line(cls, input_file):
@@ -133,10 +135,19 @@ class MainObj:
     def remove_noises_for_industry(self, t):
         if 'at ' in t.lower():
             t = t.replace('at ', '')
+            return self.remove_noises_for_industry(t)
         elif '@' in t:
             t = t.replace('@', '')
+            return self.remove_noises_for_industry(t)
         elif '-' in t:
             t = t.replace('-', '')
+            return self.remove_noises_for_industry(t)
+        elif t[len(t)-1:len(t)] == '&':
+            t = t[0:len(t)-1].strip()
+            return self.remove_noises_for_industry(t)
+        elif t[0:1] == '&':
+            t = t[1:len(t)].strip()
+            return self.remove_noises_for_industry(t)
         return t
 
     def valid_entry(self, k):
@@ -312,7 +323,7 @@ class MainObj:
             if stored:
                 if self.is_this_a_chief_title(key):
                     # it is a chief xxx xxx
-                    this_title = this_title.replace(key, '')
+                    this_title = this_title.replace(key, '').strip()
                 elif ' of' in key:
                     parsed_title = self.parse_function_of(this_title, key)
                     this_title = parsed_title
@@ -356,6 +367,8 @@ class MainObj:
                     return this_title
             if more_to_parse:
                 return more_to_parse
+        else:
+            self.DONE_THIS_ROUND = True
         return this_title
 
     def parse_function_single(self, f):
@@ -470,11 +483,13 @@ class MainObj:
                     function = t[0:pos]
                     that_title = self.parse_function_single(function)
                 else:
-                    if 'CEO' == t:
-                        print('dew1')
-                    stored = self.store(t, self.industries)
-                    if stored:
-                        that_title = that_title.replace(t, '').strip()
+                    if t not in self.levels[self.CURRENT]:
+                        t = self.remove_noises_for_industry(t)
+                        if t == '& CEO':
+                            print('dewwww')
+                        stored = self.store(t, self.industries)
+                        if stored:
+                            that_title = that_title.replace(t, '').strip()
         return that_title
 
     def print_summary(self):

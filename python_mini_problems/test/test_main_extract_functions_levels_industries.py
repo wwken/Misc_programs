@@ -69,7 +69,8 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
         def _test(a, b):
             if b:
                 if isinstance(b, (list,)):
-                    a = a.keys()
+                    a = sorted(a.keys())
+                    b = sorted(b)
             else:
                 b = {}
             self.assertEqual(a, b)
@@ -86,7 +87,7 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
                          {'Small Business Banking': 1})
 
     def test_all_2(self):
-        self._test_basic('fixtures/titles_2.txt', {'Head of': 1},{'Franchise': 1},{'DreamWorks Classics': 1})
+        self._test_basic('fixtures/titles_2.txt', {'Head of': 1}, {'Franchise': 1}, {'DreamWorks Classics': 1})
 
     def test_all_3(self):
         self._test_basic('fixtures/titles_3.txt', {'Chief Brand Officer': 1}, None, {'Google': 1})
@@ -156,9 +157,15 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
 
     def test_9(self):
         self._test_basic('Founder & CEO',
-                         ['CEO', 'Founder'],
-                         None,
-                         None)
+                         ['CEO', 'Founder'], None, None)
+
+    def test_9(self):
+        self._test_basic('CEO & Founder',
+                         ['CEO', 'Founder'], None, None)
+
+    def test_10(self):
+        self._test_basic('Founder, President & CEO',
+                         ['Founder', 'President', 'CEO'], None, None)
 
     # def test_8(self):
     #     self._test_basic('Chief of Staff, formerly Leader, Recruiting',
