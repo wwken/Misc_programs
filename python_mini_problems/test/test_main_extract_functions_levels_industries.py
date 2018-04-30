@@ -107,5 +107,11 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
                          {'Blackstone Launchpad': 1},
                          {'NYU': 1})
 
+    def test_5(self):
+        self._test_basic('Director, Interactive Marketing - Century 21',
+                         {'Director': 1},
+                         {'Interactive Marketing': 1},
+                         {'Century 21': 1})
+
 if __name__ == '__main__':
     unittest.main()

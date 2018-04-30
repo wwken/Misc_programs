@@ -114,6 +114,8 @@ class MainObj:
             t = t.replace('at ', '')
         elif '@' in t:
             t = t.replace('@', '')
+        elif '-' in t:
+            t = t.replace('-', '')
         return t
 
     def valid_entry(self, k):
@@ -346,11 +348,19 @@ class MainObj:
             function = that_title[0:end_pos]
             return self.parse_function_single(function)
 
+    # This function is solely called from the parse_function so far
     def split(self, s, delim=','):
         if ' at ' in s:
             s = s.split(' at ')[0]
         elif '@' in s:
             s = s.split('@')[0]
+        elif '-' in s:
+            a = s.split('-')
+            first_half = self.remove_noises(a[0])
+            if self.isalpha(first_half):
+                s = first_half  # ok this first half is good to be function!
+            else:
+                s = self.remove_noises(a[1])
         a = s.split(delim)
         aa = filter(lambda x: self.valid_entry(x), a)
         return aa
