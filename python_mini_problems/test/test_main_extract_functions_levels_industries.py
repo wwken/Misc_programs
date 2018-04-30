@@ -31,6 +31,10 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
         self.assertEqual(f('Chief Brand Officer,'), 'Chief Brand Officer')
         self.assertEqual(f('(chief diversity officer)'), 'chief diversity officer')
 
+    def test_remove_noises_for_function(self):
+        f = self.mainObj.remove_noises_for_function
+        self.assertEqual(f('& of Services'), 'Services')
+
     def test_try_parse_chief(self):
         f = self.mainObj.try_parse_chief
         self.assertEqual(f('Chief', 'Chief Brand Officer, Google'), 'Chief Brand Officer')
@@ -39,6 +43,7 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
         self.assertEqual(f('Chief', 'Executive Vice President & Chief Counsel, Cable Entertainment Legal Affairs'), 'Chief Counsel')
         self.assertEqual(f('Chief', 'Executive Vice President, Cable Entertainment Legal Affairs'), '')
         self.assertEqual(f('Chief', 'SVP & Chief Employment and Corporate Infrastructure Counsel'), 'Chief Employment and Corporate Infrastructure Counsel')
+        self.assertEqual(f('Chief', 'Partner, Chief Marketing & Content Officer'), 'Chief Marketing & Content Officer')
 
     def test_get_best_level(self):
         f = self.mainObj.get_best_level

@@ -85,7 +85,7 @@ class MainObj:
         s = s.strip()
         if s:
             for c in s:
-                if not (c.isalpha() or c == ' '):
+                if not (c.isalpha() or c == ' ' or c == '&'):
                     return False
             return True
         else:
@@ -101,7 +101,7 @@ class MainObj:
     def remove_noises(self, t):
         try:
             t = t.replace("()", "").strip()
-            if 'of ' in t.lower():
+            if 'of ' == t[0:3]:
                 t = t[3:]
             if t:
                 tt = t[0: len(t) - 1] + self.remove_noise(t[len(t) - 1])    # beautify the last character
@@ -112,6 +112,15 @@ class MainObj:
         except Exception as e:
             print ('ERRORS! on t: {0}, error: {1}'.format(t, e))
             return ''
+
+    def remove_noises_for_function(self, t):
+        if t:
+            if t[0:1] == '&':
+                t = t[1:].strip()
+            if t[0:3].lower() == 'of ':
+                t = t[3:]
+        return t
+
 
     def remove_noises_for_industry(self, t):
         if 'at ' in t.lower():
@@ -213,9 +222,9 @@ class MainObj:
                                 word2 = self.remove_noises(alls[x + 1])
                                 word3 = self.remove_noises(alls[x + 2])
                                 # if more to parse
-                                if not 'officer' in word3.lower() and word3.isalpha():
+                                if not 'officer' in word3.lower() and (word3.isalpha() or word3 == '&'):
                                     for xx in range(3, len(alls) - x):
-                                        if alls[x + xx].isalpha():
+                                        if alls[x + xx].isalpha() or alls[x + xx] == '&':
                                             word3 = word3 + ' ' + alls[x + xx]
                                         else:
                                             break
@@ -226,7 +235,9 @@ class MainObj:
             if word3:
                 word3 = self.remove_noises(word3.strip())
                 if self.isalpha(word3):
-                    n_key = n_key + ' ' + word3
+                    title = self.get_best_level(word3)  # see if there is a potential title here, if yes, not going to append it
+                    if not title:
+                        n_key = n_key + ' ' + word3
         else:
             return ''   # else, nothing returned
         return n_key if n_key else key
@@ -397,7 +408,7 @@ class MainObj:
                     that_title = that_title.replace(key, '').strip()
         if not stored:
             # Now, just try to store the whole that_title
-            that_title = self.remove_noises(that_title.strip())
+            that_title = self.remove_noises_for_function(self.remove_noises(that_title.strip()))
             all_functions = self.split(that_title, delim=',')
             if all_functions and len(all_functions) > 0:
                 if not self.this_person_has_chief_title(self.levels[self.CURRENT]):
