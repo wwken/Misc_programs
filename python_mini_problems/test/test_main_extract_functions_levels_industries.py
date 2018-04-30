@@ -49,6 +49,7 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
     def test_get_best_level(self):
         f = self.mainObj.get_best_level
         self.assertEqual(f('Executive Vice President & , Cable Entertainment Legal Affairs'), 'Executive Vice President')
+        self.assertEqual(f('Chief of Staff, Global Alliances & Partnerships'), 'Chief of Staff')
 
     def test_parse_function(self):
         self.mainObj.parse_function(' & , Cable Entertainment Legal Affairs')
@@ -142,6 +143,18 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
                          ['Chief Data Officer', 'Sr. Director'],
                          ['Data Strategy & Architecture'],
                          None)
+
+    def test_8(self):
+        self._test_basic('Chief of Staff, Global Alliances & Partnerships',
+                         ['Chief of Staff'],
+                         None,
+                         ['Global Alliances & Partnerships'])
+
+    # def test_8(self):
+    #     self._test_basic('Chief of Staff, formerly Leader, Recruiting',
+    #                      ['Chief of Staff'],
+    #                      ['formerly Leader'],
+    #                      ['Recruiting'])
 
 if __name__ == '__main__':
     unittest.main()

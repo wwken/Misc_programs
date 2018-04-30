@@ -229,8 +229,10 @@ class MainObj:
                             else:
                                 word2 = self.remove_noises(alls[x + 1])
                                 word3 = self.remove_noises(alls[x + 2])
+                                raw_word3 = alls[x + 2]
                                 # if more to parse
-                                if not 'officer' in word3.lower() and (word3.isalpha() or word3 == '&'):
+                                if not 'officer' in word3.lower() and (word3.isalpha() or word3 == '&') and \
+                                        (raw_word3[len(raw_word3)-1:len(raw_word3)] != ','):
                                     for xx in range(3, len(alls) - x):
                                         if alls[x + xx].isalpha() or alls[x + xx] == '&':
                                             word3 = word3 + ' ' + alls[x + xx]
@@ -337,6 +339,9 @@ class MainObj:
                 if this_title:
                     if not self.functions[self.CURRENT] and not self.industries[self.CURRENT]:
                         # if nothing was parsed into functions nor industries, return the orignal for later stage
+                        if self.levels[self.CURRENT]:   # if some parsed in levels already
+                            if not ',' in this_title and not '|' in this_title and not '@' in this_title and not '-' in this_title:
+                                self.SKIP_PARSE_FUNCTION = True
                         return this_title
                     else:
                         # This means we are done since beginning was something and returned nothing
