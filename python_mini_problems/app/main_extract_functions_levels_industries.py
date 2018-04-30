@@ -300,6 +300,8 @@ class MainObj:
             return True
         if len(splited_keys) > 2 and (splited_keys[2] == 'Chief' or splited_keys[2] == 'chief'):
             return True
+        if len(key) == 3 and key.lower()[0:1] == 'c' and key.lower()[2:3] == 'o':
+            return True
         return False
 
     def parse_level(self, this_title):
@@ -468,6 +470,8 @@ class MainObj:
                     function = t[0:pos]
                     that_title = self.parse_function_single(function)
                 else:
+                    if 'CEO' == t:
+                        print('dew1')
                     stored = self.store(t, self.industries)
                     if stored:
                         that_title = that_title.replace(t, '').strip()

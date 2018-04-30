@@ -7,6 +7,10 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
     def setUp(self):
         self.mainObj = MainObj()
 
+    def test_is_this_a_chief_title(self):
+        f = self.mainObj.is_this_a_chief_title
+        self.assertEqual(f('CEO'), True)
+
     def test_eliminate_duplicate_levels(self):
         keys = ['Senior Director', 'Head', 'Head of']
         eliminated_keys = self.mainObj.eliminate_duplicate_levels(keys)
@@ -149,6 +153,12 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
                          ['Chief of Staff'],
                          None,
                          ['Global Alliances & Partnerships'])
+
+    def test_9(self):
+        self._test_basic('Founder & CEO',
+                         ['CEO', 'Founder'],
+                         None,
+                         None)
 
     # def test_8(self):
     #     self._test_basic('Chief of Staff, formerly Leader, Recruiting',
