@@ -57,6 +57,7 @@ class MainObj:
         'Director': 60,
         'Director of': 60,
         'EVP': 55,
+        'DVP': 54,
         'SVP': 53,
         'VP': 50,
         'V.P.': 50,
@@ -117,10 +118,14 @@ class MainObj:
         if t:
             if t[0:1] == '&':
                 t = t[1:].strip()
-            if t[0:3].lower() == 'of ':
+                return self.remove_noises_for_function(t)
+            elif t[0:3].lower() == 'of ':
                 t = t[3:]
+                return self.remove_noises_for_function(t)
+            elif t[0:1] == '/':
+                t = t[1:].strip()
+                return self.remove_noises_for_function(t)
         return t
-
 
     def remove_noises_for_industry(self, t):
         if 'at ' in t.lower():

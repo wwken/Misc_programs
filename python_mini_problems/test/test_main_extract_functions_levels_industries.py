@@ -127,5 +127,11 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
                          ['Advertiser Platforms'],
                          None)
 
+    def test_7(self):
+        self._test_basic('DVP/GM, Global External Sales and Marketing - Kenmore, Craftsman, Diehard Brands',
+                         ['GM','DVP'],
+                         ['Global External Sales and Marketing'],
+                         ['Kenmore, Craftsman, Diehard Brands'])
+
 if __name__ == '__main__':
     unittest.main()
