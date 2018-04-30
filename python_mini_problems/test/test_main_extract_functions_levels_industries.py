@@ -7,7 +7,7 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
     def setUp(self):
         self.mainObj = MainObj()
 
-    def test_get_best_level(self):
+    def test_eliminate_duplicate_levels(self):
         keys = ['Senior Director', 'Head', 'Head of']
         eliminated_keys = self.mainObj.eliminate_duplicate_levels(keys)
         self.assertEqual(eliminated_keys, ['Senior Director', 'Head of'])
@@ -44,6 +44,7 @@ class TestExtractFunctionsLevelsIndustries(unittest.TestCase):
         self.assertEqual(f('Chief', 'Executive Vice President, Cable Entertainment Legal Affairs'), '')
         self.assertEqual(f('Chief', 'SVP & Chief Employment and Corporate Infrastructure Counsel'), 'Chief Employment and Corporate Infrastructure Counsel')
         self.assertEqual(f('Chief', 'Partner, Chief Marketing & Content Officer'), 'Chief Marketing & Content Officer')
+        self.assertEqual(f('Chief', 'Sr. Director Data Strategy & Architecture / Chief Data Officer'), 'Chief Data Officer')
 
     def test_get_best_level(self):
         f = self.mainObj.get_best_level

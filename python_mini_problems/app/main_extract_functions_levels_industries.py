@@ -33,7 +33,9 @@ class MainObj:
 
     predefined_level_levels = {
         'Executive': 5,
-        'Senior': 3
+        'Senior': 3,
+        'Sr.': 3,
+        'Sr': 3
     }
 
     predefined_levels = {
@@ -62,14 +64,10 @@ class MainObj:
         'VP': 50,
         'V.P.': 50,
         'Vice President': 50,
-        'Sr Manager': 23,
+        'Manager': 21,
         'General Manager': 20,
         'HR Manager': 20,
         'GM': 20,
-        'Senior': 15,
-        'Sr.': 15,
-        'Junior': 14,
-        'Jr.': 14,
         'Associate': 10,
     }
 
@@ -253,9 +251,8 @@ class MainObj:
         max_keys = []
         for key, value in all_levels.items():
             if self.level_is_in_title(key, t) > -1:
-                if value >= max:
-                    max = value
-                    max_keys.append(key)
+                max = value
+                max_keys.append(key)
 
         max_keys = self.eliminate_duplicate_levels(max_keys)
         if len(max_keys) > 1:
