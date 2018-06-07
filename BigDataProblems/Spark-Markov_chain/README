@@ -30,4 +30,6 @@ https://en.wikipedia.org/wiki/Markov_chain
 	/usr/local/spark/bin/spark-submit ./try.py
 	```
 
-	
+
+-- Notes:
+1) The program is being tested thoroughly under Hadoop 2.7.6 and Spark 2.3.0 versions
