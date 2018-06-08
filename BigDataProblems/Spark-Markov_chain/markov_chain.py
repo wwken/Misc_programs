@@ -2,36 +2,31 @@
 # Date: 2017-10-16
 
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col
 
-def addColumnIndex(df, data_column_to_be_named):
-  # Create new column names
-  oldColumns = df.schema.names
-  newColumns = oldColumns + ["columnindex"]
-
+def addColumnIndex(df):
+  old_column_names = df.columns[:]
   # Add Column index
-  df_indexed = df.rdd.zipWithIndex().map(lambda (row, columnindex): \
-                                         row + (columnindex,)).toDF()
-
-
-  df_indexed = df_indexed.withColumnRenamed('_1', data_column_to_be_named)
-
-  return df_indexed
+  df = df.rdd.zipWithIndex().map(lambda (row, columnindex): (columnindex,) + row).toDF()
+  df = df.withColumnRenamed('_1', 'rowIndex')
+  for i in xrange(0, len(old_column_names)):
+	# print ('old_column_names[i]', old_column_names[i])
+  	df = df.withColumnRenamed('_' + str(i + 2), old_column_names[i])
+  return df
 
 inupt_file = "./data.csv"
 
 spark = SparkSession.builder.appName("SimpleApp").getOrCreate()
 spark.sparkContext.setLogLevel("ERROR")
 df1 = spark.read.format('csv').option("header", "true").option("mode", "DROPMALFORMED").load(inupt_file)
-df1 = addColumnIndex(df1, 'step')
+df1 = addColumnIndex(df1)
 
 df2 = spark.read.format('csv').option("header", "true").option("mode", "DROPMALFORMED").load(inupt_file)
 df2 = df2.withColumnRenamed('step', 'nextStep')
 # shift all rows one up (i.e. discard the first row)
 df2 = df2.rdd.zipWithIndex().filter(lambda (row, index): index > 0).keys().toDF()
-df2 = addColumnIndex(df2, 'nextStep')
+df2 = addColumnIndex(df2)
 
-dff = df1.join(df2, df1._2 == df2._2, 'inner')	# join by the new added columnindex column
+dff = df1.join(df2, df1.rowIndex == df2.rowIndex, 'inner')	# join by the new added columnindex column
 
 each_step_df = dff.groupby('step').count().withColumnRenamed('count', 'parent_count').withColumnRenamed('step', 'parent_step')
 each_next_step_df = dff.groupby('step', 'nextStep').count().withColumnRenamed('count', 'child_count')
@@ -47,6 +42,8 @@ for row in dfff.rdd.collect():
 	if row.parent_step not in final_calculations:
 		final_calculations[row.parent_step] = {}
 	final_calculations[row.parent_step][row.nextStep] = str(row.chance * 100) + '%'
+
+print 'Here is the final calculations:'
 
 # get the unique value
 all_unique_step = []
