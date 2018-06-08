@@ -2,21 +2,36 @@
 # Date: 2017-10-16
 
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import monotonically_increasing_id
+from pyspark.sql.functions import col
+
+def addColumnIndex(df, data_column_to_be_named):
+  # Create new column names
+  oldColumns = df.schema.names
+  newColumns = oldColumns + ["columnindex"]
+
+  # Add Column index
+  df_indexed = df.rdd.zipWithIndex().map(lambda (row, columnindex): \
+                                         row + (columnindex,)).toDF()
+
+
+  df_indexed = df_indexed.withColumnRenamed('_1', data_column_to_be_named)
+
+  return df_indexed
 
 inupt_file = "./data.csv"
 
 spark = SparkSession.builder.appName("SimpleApp").getOrCreate()
 spark.sparkContext.setLogLevel("ERROR")
 df1 = spark.read.format('csv').option("header", "true").option("mode", "DROPMALFORMED").load(inupt_file)
-df1 = df1.withColumn('id', monotonically_increasing_id())
+df1 = addColumnIndex(df1, 'step')
 
 df2 = spark.read.format('csv').option("header", "true").option("mode", "DROPMALFORMED").load(inupt_file)
 df2 = df2.withColumnRenamed('step', 'nextStep')
-df2 = df2.withColumn('id', monotonically_increasing_id())
+# shift all rows one up (i.e. discard the first row)
+df2 = df2.rdd.zipWithIndex().filter(lambda (row, index): index > 0).keys().toDF()
+df2 = addColumnIndex(df2, 'nextStep')
 
-# now union the two dataframes
-dff = df1.join(df2, df1.id == df2.id - 1)
+dff = df1.join(df2, df1._2 == df2._2, 'inner')	# join by the new added columnindex column
 
 each_step_df = dff.groupby('step').count().withColumnRenamed('count', 'parent_count').withColumnRenamed('step', 'parent_step')
 each_next_step_df = dff.groupby('step', 'nextStep').count().withColumnRenamed('count', 'child_count')
@@ -26,8 +41,6 @@ dfff = dfff.withColumn('chance', dfff.child_count / dfff.parent_count)
 
 # pick the final columns to show
 dfff = dfff.select('parent_step', 'nextStep', 'chance')
-
-# print (dfff.schema)
 
 final_calculations = {}
 for row in dfff.rdd.collect():
@@ -54,6 +67,5 @@ for x in xrange(0, len(all_unique_step)):
 				chance = final_calculations[all_unique_step[x]][all_unique_step[y]]
 		print_str += chance + ' '
 	print print_str
-
 
 spark.stop()
