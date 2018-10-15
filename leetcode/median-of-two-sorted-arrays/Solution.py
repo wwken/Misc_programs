@@ -27,7 +27,9 @@ class Solution(object):
                     return left
             midElement = int((left + right) / 2)
             ha = 0
-            if v < a[midElement]:
+            if v > a[midElement] and v < a[midElement+1]:
+                ha = midElement + 1
+            elif v < a[midElement]:
                 ha = _mergeValueIntoArray(v, a, 0, midElement)
             else:
                 if len(a) % 2 == 1:
