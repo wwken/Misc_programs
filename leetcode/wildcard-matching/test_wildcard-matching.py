@@ -124,3 +124,9 @@ class TestStringMethods(unittest.TestCase):
     def test_tricky12(self):
         self.assertEqual(self.sol.isMatch('mississippi',
                                           'm??*ss*?i*pi'), False)
+
+    def test_tricky13(self):
+        self.assertEqual(self.sol.isMatch('aaababbbbabaaababbaaa',
+                                          'aaa*bba*aa*a*abb*a*a'), True)
+        self.assertEqual(self.sol.isMatch('abbbaaaaaaaabbbabaaabbabbbaabaabbbbaabaabbabaabbabbaabbbaabaabbabaabaabbbbaabbbaabaaababbbbabaaababbaaa',
+                                          'ab**b*bb*ab**ab***b*abaa**b*a*aaa**bba*aa*a*abb*a*a'), True)

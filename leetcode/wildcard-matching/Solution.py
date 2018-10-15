@@ -59,7 +59,8 @@ class Solution(object):
                         while True:
                             found = s.find(patternToFound, start)
                             if found > -1:
-                                if found <= (len(s) - len(p[i+1:]))+1:
+                                pp = p.replace('*', '')
+                                if found <= (len(s) - len(p[i+1:]))+1 or found <= (len(s) - len(pp))+1:
                                     goodJs.append(found)
                                 else:
                                     break
