@@ -27,6 +27,10 @@ class Solution(object):
         :type nums2: List[int]
         :rtype: float
         """
+        if len(nums1) == 0:
+            return self.median(nums2)
+        elif len(nums2) == 0:
+            return self.median(nums1)
 
         if len(nums1) == 2 and len(nums2) == 2:
             return (max(nums1[0], nums2[0]) + min(nums1[1], nums2[1]))/2
