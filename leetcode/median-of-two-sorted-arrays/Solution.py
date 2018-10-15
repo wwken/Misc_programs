@@ -31,9 +31,9 @@ class Solution(object):
                 ha = _mergeValueIntoArray(v, a, 0, midElement)
             else:
                 if len(a) % 2 == 1:
-                    ha = _mergeValueIntoArray(v, a, midElement, len(a))
+                    ha = _mergeValueIntoArray(v, a, midElement, right)
                 else:
-                    ha = _mergeValueIntoArray(v, a, midElement+1, len(a))
+                    ha = _mergeValueIntoArray(v, a, midElement+1, right)
             return ha
 
         insertIndex = _mergeValueIntoArray(v, a, 0, len(a)-1)

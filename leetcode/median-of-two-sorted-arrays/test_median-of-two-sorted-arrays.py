@@ -36,9 +36,10 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(self.sol.mergeValueIntoArray(2, [1,3]), [1,2,3])
         self.assertEqual(self.sol.mergeValueIntoArray(5, [1,3]), [1,3,5])
         self.assertEqual(self.sol.mergeValueIntoArray(0, [1,3]), [0,1,3])
+        self.assertEqual(self.sol.mergeValueIntoArray(3, [1,2,4,5,6]), [1,2,3,4,5,6])
 
     def test_mergeValueIntoArray1(self):
-        self.assertEqual(self.sol.mergeValueIntoArray(3, [2,3,4]), [2,3,3,4])
+        pass
 
     def test_required(self):
         self.assertEqual(self.sol.findMedianSortedArrays([1, 3], [2]), 2.0)
@@ -59,3 +60,6 @@ class TestMethods(unittest.TestCase):
 
     def test_tricky5(self):
         self.assertEqual(self.sol.findMedianSortedArrays([1], [2,3,4]), 2.5)
+
+    def test_tricky6(self):
+        self.assertEqual(self.sol.findMedianSortedArrays([3], [1,2,4,5,6]), 3.5)
