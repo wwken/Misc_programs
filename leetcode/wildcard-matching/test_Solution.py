@@ -116,3 +116,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_tricky10(self):
         self.assertEqual(self.sol.isMatch('aac', '*c****'), True)
+
+    def test_tricky11(self):
+        self.assertEqual(self.sol.isMatch('abbabaaabbabbaababbabbbbbabbbabbbabaaaaababababbbabababaabbababaabbbbbbaaaabababbbaabbbbaabbbbababababbaabbaababaabbbababababbbbaaabbbbbabaaaabbababbbbaababaabbababbbbbababbbabaaaaaaaabbbbbaabaaababaaaabb',
+                                          '**aa*****ba*a*bb**aa*ab****a*aaaaaa***a*aaaa**bbabb*b*b**aaaaaaaaa*a********ba*bbb***a*ba*bb*bb**a*b*bb'), False)

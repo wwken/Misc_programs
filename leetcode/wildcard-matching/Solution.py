@@ -1,4 +1,16 @@
 class Solution(object):
+    hasBeenProcessedSubStrs = {}
+
+    def extractPattern(self, p, startPos):
+        r = ""
+        while startPos < len(p):
+            if p[startPos] != "?" and p[startPos] != "*":
+                r += p[startPos]
+            else:
+                break
+            startPos += 1
+        return r
+
     def _numOfSpecialCharacter(self, x, sc):
         num=0
         for xx in x:
@@ -7,6 +19,11 @@ class Solution(object):
         return num
 
     def _isMatch(self, s, p, startI, startJ):
+        key = s + "|||||##!#|||||##!#||" + p
+        if not key in self.hasBeenProcessedSubStrs:
+            self.hasBeenProcessedSubStrs[key] = 1
+        else:
+            return False
         j=startJ
         i=startI
         hasNormalCharacterInP=False
@@ -31,10 +48,24 @@ class Solution(object):
                     else:
                         # Now it looks for the match character in s
                         goodJs = []
-                        while(j<= (len(s) - len(p[i+1:]))+1):
-                            if j < len(s) and s[j] == nextC:   #all good, found match
-                                goodJs.append(j)
-                            j+=1
+                        patternToFound = self.extractPattern(p, i+1)
+                        # while(j<= (len(s) - len(p[i+1:]))+1):
+                        #     if j < len(s) and s[j] == nextC:   #all good, found match
+                        #
+                        #         # Very important, look ahead of the pattern
+                        #         goodJs.append(j)
+                        #     j+=1
+                        start=0
+                        while True:
+                            found = s.find(patternToFound, start)
+                            if found > -1:
+                                if found <= (len(s) - len(p[i+1:]))+1:
+                                    goodJs.append(found)
+                                else:
+                                    break
+                                start = found + 1
+                            else:
+                                break
                         for goodJ in goodJs:
                             ss = s[goodJ:]
                             pp = p[i+1:]
@@ -77,8 +108,12 @@ class Solution(object):
         :rtype: bool
         """
         def beautify(p):
-            p = p.replace("**", "*")
-            return p
+            while True:
+                pp = p.replace("**", "*")
+                if pp == p:
+                    return pp
+                p = pp
 
         p = beautify(p)
+        self.hasBeenProcessedSubStrs = {}
         return self._isMatch(s, p, 0, 0)
