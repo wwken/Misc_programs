@@ -55,7 +55,7 @@ class Solution(object):
                         #         # Very important, look ahead of the pattern
                         #         goodJs.append(j)
                         #     j+=1
-                        start=0
+                        start=j
                         while True:
                             found = s.find(patternToFound, start)
                             if found > -1:
