@@ -5,7 +5,10 @@ class Solution(object):
     def half(self, a, firstHalf=True):
         aa = None
         if firstHalf:
-            aa = a[0:int(math.floor(len(a)/2))+1]
+            if len(a) % 2 == 0:
+                aa = a[0:int(math.floor(len(a)/2))]
+            else:
+                aa = a[0:int(math.floor(len(a)/2))+1]
         else:
             aa =a[int(math.floor(len(a)/2)):]
         return aa
@@ -34,6 +37,15 @@ class Solution(object):
 
         if len(nums1) == 2 and len(nums2) == 2:
             return (max(nums1[0], nums2[0]) + min(nums1[1], nums2[1]))/2
+
+        if len(nums1) == 1 and len(nums2) == 2:
+            nums2.append(nums1[0])
+            numss = sorted(nums2)
+            return self.median(numss)
+        elif len(nums2) == 1 and len(nums1) == 2:
+            nums1.append(nums2[0])
+            numss = sorted(nums1)
+            return self.median(numss)
 
         m1 = None
         m2 = None
