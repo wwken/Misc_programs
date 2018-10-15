@@ -69,6 +69,14 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(self.sol.isMatch('cb', 'cb?'), False)
 
     def test_star_mark(self):
+        self.assertEqual(self.sol.isMatch('cac', 'c*'), True)
+        self.assertEqual(self.sol.isMatch('cac', 'c**'), True)
+        self.assertEqual(self.sol.isMatch('cac', 'c***'), True)
+        self.assertEqual(self.sol.isMatch('cac', 'c****'), True)
+        self.assertEqual(self.sol.isMatch('cac', 'c*****'), True)
+        self.assertEqual(self.sol.isMatch('cac', 'c*****c'), True)
+        self.assertEqual(self.sol.isMatch('cac', 'c*****ac'), True)
+        self.assertEqual(self.sol.isMatch('cac', 'c*****?c'), True)
         self.assertEqual(self.sol.isMatch('cac', '*cac'), True)
         self.assertEqual(self.sol.isMatch('cacc', '*cc'), True)
         self.assertEqual(self.sol.isMatch('cacc', '*c'), True)
@@ -78,3 +86,15 @@ class TestStringMethods(unittest.TestCase):
 
     def test_tricky(self):
         self.assertEqual(self.sol.isMatch('aaaa', '***a'), True)
+
+    def test_tricky2(self):
+        self.assertEqual(self.sol.isMatch('c', '*?*'), True)
+
+    def test_tricky3(self):
+        self.assertEqual(self.sol.isMatch('hi', '*?'), True)
+
+    def test_tricky4(self):
+        self.assertEqual(self.sol.isMatch('a', ''), False)
+
+    def test_tricky5(self):
+        self.assertEqual(self.sol.isMatch('abcde', '*?*?*?*?'), True)
