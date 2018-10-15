@@ -21,7 +21,13 @@ class Solution(object):
                 else:
                     nextC = p[i+1]
                     if nextC == '*' or nextC == '?':
-                        pass # does nothing
+                        if nextC == '?':
+                            jj = j
+                            while jj < len(s):
+                                result = self._isMatch(s[jj:], p[i+1:], 0, 0)
+                                if result:
+                                    return True
+                                jj += 1
                     else:
                         # Now it looks for the match character in s
                         goodJs = []

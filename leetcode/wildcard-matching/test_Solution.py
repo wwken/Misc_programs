@@ -67,6 +67,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(self.sol.isMatch('cb', '?'), False)
         self.assertEqual(self.sol.isMatch('cb', 'b'), False)
         self.assertEqual(self.sol.isMatch('cb', 'cb?'), False)
+        self.assertEqual(self.sol.isMatch('??a?', 'bbab'), False)
 
     def test_star_mark(self):
         self.assertEqual(self.sol.isMatch('cac', 'c*'), True)
@@ -98,3 +99,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_tricky5(self):
         self.assertEqual(self.sol.isMatch('abcde', '*?*?*?*?'), True)
+
+    def test_tricky6(self):
+        self.assertEqual(self.sol.isMatch('bbbab', '*??a?'), True)
+
