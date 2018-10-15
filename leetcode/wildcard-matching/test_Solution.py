@@ -84,6 +84,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(self.sol.isMatch('cacc', '*ca'), False)
         self.assertEqual(self.sol.isMatch('cacc', '*cac'), False)
         self.assertEqual(self.sol.isMatch('cacc', '*cacc'), True)
+        self.assertEqual(self.sol.isMatch('ba', '*a*'), True)
 
     def test_tricky(self):
         self.assertEqual(self.sol.isMatch('aaaa', '***a'), True)
@@ -105,3 +106,13 @@ class TestStringMethods(unittest.TestCase):
 
     def test_tricky7(self):
         self.assertEqual(self.sol.isMatch('baabba', '?*?a??'), False)
+
+    def test_tricky8(self):
+        self.assertEqual(self.sol.isMatch('babbbbaabababaabbababaababaabbaabababbaaababbababaaaaaabbabaaaabababbabbababbbaaaababbbabbbbbbbbbbaabbb',
+                                          'b**bb**a**bba*b**a*bbb**aba***babbb*aa****aabb*bbb***a'), False)
+
+    def test_tricky9(self):
+        self.assertEqual(self.sol.isMatch('bba', '*a**'), True)
+
+    def test_tricky10(self):
+        self.assertEqual(self.sol.isMatch('aac', '*c****'), True)

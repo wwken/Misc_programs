@@ -31,8 +31,8 @@ class Solution(object):
                     else:
                         # Now it looks for the match character in s
                         goodJs = []
-                        while(j<len(s)):
-                            if s[j] == nextC:   #all good, found match
+                        while(j<= (len(s) - len(p[i+1:]))+1):
+                            if j < len(s) and s[j] == nextC:   #all good, found match
                                 goodJs.append(j)
                             j+=1
                         for goodJ in goodJs:
@@ -53,7 +53,7 @@ class Solution(object):
             if i == len(p) and i>0: # last charactger in P
                 if p[i-1] == '?':
                     if j == i-1:
-                        return True
+                        pass
                     if not hasNormalCharacterInP:
                         numQ = self._numOfSpecialCharacter(p, '?')
                         numS = self._numOfSpecialCharacter(p, '*')
@@ -76,4 +76,9 @@ class Solution(object):
         :type p: str
         :rtype: bool
         """
+        def beautify(p):
+            p = p.replace("**", "*")
+            return p
+
+        p = beautify(p)
         return self._isMatch(s, p, 0, 0)
