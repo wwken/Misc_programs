@@ -103,3 +103,5 @@ class TestStringMethods(unittest.TestCase):
     def test_tricky6(self):
         self.assertEqual(self.sol.isMatch('bbbab', '*??a?'), True)
 
+    def test_tricky7(self):
+        self.assertEqual(self.sol.isMatch('baabba', '?*?a??'), False)
