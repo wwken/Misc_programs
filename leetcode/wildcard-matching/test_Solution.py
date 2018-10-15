@@ -1,0 +1,80 @@
+import unittest
+from Solution import Solution
+
+# Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*'.
+#
+# '?' Matches any single character.
+# '*' Matches any sequence of characters (including the empty sequence).
+# The matching should cover the entire input string (not partial).
+#
+# Note:
+#
+# s could be empty and contains only lowercase letters a-z.
+# p could be empty and contains only lowercase letters a-z, and characters like ? or *.
+# Example 1:
+#
+# Input:
+# s = "aa"
+# p = "a"
+# Output: false
+# Explanation: "a" does not match the entire string "aa".
+# Example 2:
+#
+# Input:
+# s = "aa"
+# p = "*"
+# Output: true
+# Explanation: '*' matches any sequence.
+# Example 3:
+#
+# Input:
+# s = "cb"
+# p = "?a"
+# Output: false
+# Explanation: '?' matches 'c', but the second letter is 'a', which does not match 'b'.
+# Example 4:
+#
+# Input:
+# s = "adceb"
+# p = "*a*b"
+# Output: true
+# Explanation: The first '*' matches the empty sequence, while the second '*' matches the substring "dce".
+# Example 5:
+#
+# Input:
+# s = "acdcb"
+# p = "a*c?b"
+# Output: false
+
+class TestStringMethods(unittest.TestCase):
+
+    sol = Solution()
+
+    def test_required(self):
+        self.assertEqual(self.sol.isMatch('aa', 'a'), False)
+        self.assertEqual(self.sol.isMatch('aa', '*'), True)
+        self.assertEqual(self.sol.isMatch('cb', '?a'), False)
+        self.assertEqual(self.sol.isMatch('adceb', '*a*b'), True)
+        self.assertEqual(self.sol.isMatch('acdcb', 'a*c?b'), False)
+
+    def test_basic(self):
+        self.assertEqual(self.sol.isMatch('c', 'ca'), False)
+
+    def test_question_mark(self):
+        self.assertEqual(self.sol.isMatch('cb', 'c?'), True)
+        self.assertEqual(self.sol.isMatch('cb', '??'), True)
+        self.assertEqual(self.sol.isMatch('cb', '?b'), True)
+        self.assertEqual(self.sol.isMatch('cb', '?'), False)
+        self.assertEqual(self.sol.isMatch('cb', 'b'), False)
+        self.assertEqual(self.sol.isMatch('cb', 'cb?'), False)
+
+    def test_star_mark(self):
+        self.assertEqual(self.sol.isMatch('cac', '*cac'), True)
+        self.assertEqual(self.sol.isMatch('cacc', '*cc'), True)
+        self.assertEqual(self.sol.isMatch('cacc', '*c'), True)
+        self.assertEqual(self.sol.isMatch('cacc', '*ca'), False)
+        self.assertEqual(self.sol.isMatch('cacc', '*cac'), False)
+        self.assertEqual(self.sol.isMatch('cacc', '*cacc'), True)
+
+    def test_tricky(self):
+        self.assertEqual(self.sol.isMatch('aaaa', '***a'), True)
