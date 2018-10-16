@@ -127,9 +127,14 @@ class Solution(object):
                 nums22 = self.half(nums2, m2)
                 return self.findMedianSortedArrays(nums11, nums22)
             else:
-                nums11 = self.half(nums1, m1)
-                nums22 = self.half(nums2, m2, False)
-                return self.findMedianSortedArrays(nums11, nums22)
+                if nums1[0] < nums2[0] and nums1[len(nums1)-1] > nums2[len(nums2)-1]:
+                    nums11 = self.half(nums1, m1, False)
+                    nums22 = self.half(nums2, m2)
+                    return self.findMedianSortedArrays(nums11, nums22)
+                else:
+                    nums11 = self.half(nums1, m1)
+                    nums22 = self.half(nums2, m2, False)
+                    return self.findMedianSortedArrays(nums11, nums22)
         else:
             pass
 
