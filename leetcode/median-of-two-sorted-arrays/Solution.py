@@ -67,6 +67,9 @@ class Solution(object):
             aa = a[0:closetIndex+1]
         else:
             closetIndex = self.findCloset(a, m)
+            if closetIndex == 0:
+                if a[closetIndex] == a[int(len(a)/2)]:
+                    closetIndex=int(len(a)/2)
             aa =a[closetIndex:]
         return aa
 
@@ -101,6 +104,10 @@ class Solution(object):
         elif len(nums2) == 1:
             numss = self.mergeValueIntoArray(nums2[0], nums1)
             return self.median(numss)
+
+        if len(nums1) == len(nums2):
+            if self.median(nums1) == self.median(nums2):
+                return self.median(nums1)
 
         m1 = None
         m2 = None
