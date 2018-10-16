@@ -92,3 +92,6 @@ class TestMethods(unittest.TestCase):
 
     def test_tricky9(self):
         self.assertEqual(self.sol.findMedianSortedArrays([1,5], [2,3,4]), 3.0)
+
+    def test_tricky10(self):
+        self.assertEqual(self.sol.findMedianSortedArrays([1,4,5], [2,3]), 3.0)
