@@ -64,7 +64,10 @@ class Solution(object):
         aa = None
         if firstHalf:
             closetIndex = self.findCloset(a, m)
-            aa = a[0:closetIndex+1]
+            if a[closetIndex] > m:
+                aa = a[0:closetIndex]
+            else:
+                aa = a[0:closetIndex+1]
         else:
             closetIndex = self.findCloset(a, m)
             if closetIndex == 0:
@@ -123,23 +126,20 @@ class Solution(object):
 
         if len(nums1) > 2 or len(nums2) > 2:
             if m1 < m2:
-                if len(nums1) > len(nums2):
-                    nums11 = self.half(nums1, m1)
-                    nums22 = self.half(nums2, m2, False)
-                    return self.findMedianSortedArrays(nums11, nums22)
-                else:
-                    nums11 = self.half(nums1, m1, False)
-                    nums22 = self.half(nums2, m2)
-                    return self.findMedianSortedArrays(nums11, nums22)
+                # if len(nums2) < len(nums1):
+                #     tempNums = nums1
+                #     nums1 = nums2
+                #     nums2 = tempNums
+                #     tm = m1
+                #     m1 = m2
+                #     m2 = tm
+                nums11 = self.half(nums1, m1, False)
+                nums22 = nums2[0:len(nums2) - (len(nums1) - len(nums11))]
+                return self.findMedianSortedArrays(nums11, nums22)
             else:
-                if len(nums1) < len(nums2):
-                    nums11 = self.half(nums1, m1, False)
-                    nums22 = self.half(nums2, m2)
-                    return self.findMedianSortedArrays(nums11, nums22)
-                else:
-                    nums11 = self.half(nums1, m1)
-                    nums22 = self.half(nums2, m2, False)
-                    return self.findMedianSortedArrays(nums11, nums22)
+                nums11 = self.half(nums1, m1, True)
+                nums22 = self.half(nums2, m2, False)
+                return self.findMedianSortedArrays(nums11, nums22)
         else:
             pass
 

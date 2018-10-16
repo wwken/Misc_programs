@@ -27,6 +27,20 @@ class TestMethods(unittest.TestCase):
 
     sol = Solution()
 
+    def test_half(self):
+        self.assertEqual(self.sol.half([2,3,5], 3.5, False), [5])
+        self.assertEqual(self.sol.half([2,3,5], 3, False), [3,5])
+        self.assertEqual(self.sol.half([2,3,5], 2.5, False), [3,5])
+        self.assertEqual(self.sol.half([2,3,5], 2, False), [2,3,5])
+        self.assertEqual(self.sol.half([2,3,5], 1.5, False), [2,3,5])
+        self.assertEqual(self.sol.half([2,3,5], 1, False), [2,3,5])
+
+        self.assertEqual(self.sol.half([2,3,5], 2, True), [2])
+        self.assertEqual(self.sol.half([2,3,5], 2.5, True), [2])
+        self.assertEqual(self.sol.half([2,3,5], 3, True), [2,3])
+
+        self.assertEqual(self.sol.half([3,4,5,6], 4.5, True), [3,4])
+
     def test_findCloset(self):
         self.assertEqual(self.sol.findCloset([3,4,5,6], 2.5), 0)
         self.assertEqual(self.sol.findCloset([3,4,5,6], 3), 0)
@@ -104,3 +118,6 @@ class TestMethods(unittest.TestCase):
 
     def test_tricky13(self):
         self.assertEqual(self.sol.findMedianSortedArrays([1,3,4], [2,5]), 3.0)
+
+    def test_tricky14(self):
+        self.assertEqual(self.sol.findMedianSortedArrays([3,4], [1,2,5]), 3.0)
