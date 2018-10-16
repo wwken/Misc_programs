@@ -137,8 +137,8 @@ class Solution(object):
                 nums22 = nums2[0:len(nums2) - (len(nums1) - len(nums11))]
                 return self.findMedianSortedArrays(nums11, nums22)
             else:
-                nums11 = self.half(nums1, m1, True)
                 nums22 = self.half(nums2, m2, False)
+                nums11 = nums1[0:len(nums1) - (len(nums2) - len(nums22))]
                 return self.findMedianSortedArrays(nums11, nums22)
         else:
             pass
