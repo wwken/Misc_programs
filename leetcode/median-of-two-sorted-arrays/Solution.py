@@ -42,15 +42,32 @@ class Solution(object):
         a.insert(insertIndex, v)
         return a
 
-    def half(self, a, firstHalf=True):
+    def findCloset(self, aa, m):
+        def _findCloset(aa, m, start, end):
+            if end-start == 1:
+                if aa[start] >= m:
+                    return start
+                elif aa[start] < m:
+                    return end
+                else:
+                    return end
+            else:
+                mid = int((end+start)/2)
+                if m > aa[mid]:
+                    return _findCloset(aa, m, mid, end)
+                else:
+                    return _findCloset(aa, m, start, mid)
+        index = _findCloset(aa, m, 0, len(aa)-1)
+        return index
+
+    def half(self, a, m, firstHalf=True):
         aa = None
         if firstHalf:
-            if len(a) % 2 == 0:
-                aa = a[0:int(math.floor(len(a)/2))]
-            else:
-                aa = a[0:int(math.floor(len(a)/2))+1]
+            closetIndex = self.findCloset(a, m)
+            aa = a[0:closetIndex+1]
         else:
-            aa =a[int(math.floor(len(a)/2)):]
+            closetIndex = self.findCloset(a, m)
+            aa =a[closetIndex:]
         return aa
 
     def median(self, a):
@@ -99,12 +116,12 @@ class Solution(object):
 
         if len(nums1) > 2 or len(nums2) > 2:
             if m1 < m2:
-                nums11 = self.half(nums1, False)
-                nums22 = self.half(nums2)
+                nums11 = self.half(nums1, m1, False)
+                nums22 = self.half(nums2, m2)
                 return self.findMedianSortedArrays(nums11, nums22)
             else:
-                nums11 = self.half(nums1)
-                nums22 = self.half(nums2, False)
+                nums11 = self.half(nums1, m1)
+                nums22 = self.half(nums2, m2, False)
                 return self.findMedianSortedArrays(nums11, nums22)
         else:
             pass

@@ -27,6 +27,26 @@ class TestMethods(unittest.TestCase):
 
     sol = Solution()
 
+    def test_findCloset(self):
+        self.assertEqual(self.sol.findCloset([3,4,5,6], 2.5), 0)
+        self.assertEqual(self.sol.findCloset([3,4,5,6], 3), 0)
+        self.assertEqual(self.sol.findCloset([3,4,5,6], 3.5), 1)
+        self.assertEqual(self.sol.findCloset([3,4,5,6], 4), 1)
+        self.assertEqual(self.sol.findCloset([3,4,5,6], 4.5), 2)
+        self.assertEqual(self.sol.findCloset([3,4,5,6], 5), 2)
+        self.assertEqual(self.sol.findCloset([3,4,5,6], 5.5), 3)
+        self.assertEqual(self.sol.findCloset([3,4,5,6], 6), 3)
+        self.assertEqual(self.sol.findCloset([3,4,5,6], 7), 3)
+
+        self.assertEqual(self.sol.findCloset([3,4,5], 2), 0)
+        self.assertEqual(self.sol.findCloset([3,4,5], 3), 0)
+        self.assertEqual(self.sol.findCloset([3,4,5], 3.5), 1)
+        self.assertEqual(self.sol.findCloset([3,4,5], 4), 1)
+        self.assertEqual(self.sol.findCloset([3,4,5], 4.5), 2)
+        self.assertEqual(self.sol.findCloset([3,4,5], 5), 2)
+        self.assertEqual(self.sol.findCloset([3,4,5], 5.5), 2)
+        self.assertEqual(self.sol.findCloset([3,4,5], 6), 2)
+
     def test_mergeValueIntoArray(self):
         self.assertEqual(self.sol.mergeValueIntoArray(1, [2,3,4]), [1,2,3,4])
         self.assertEqual(self.sol.mergeValueIntoArray(2, [2,3,4]), [2,2,3,4])
@@ -63,3 +83,6 @@ class TestMethods(unittest.TestCase):
 
     def test_tricky6(self):
         self.assertEqual(self.sol.findMedianSortedArrays([3], [1,2,4,5,6]), 3.5)
+
+    def test_tricky7(self):
+        self.assertEqual(self.sol.findMedianSortedArrays([1,2], [3,4,5,6]), 3.5)
