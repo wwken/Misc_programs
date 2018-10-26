@@ -24,4 +24,3 @@ class Solution:
         answer = {'ans': "?"}
         self._kthSmallest(root, k, 0, answer)
         return answer['ans']
-        
