@@ -40,6 +40,9 @@ class Solution(object):
                     ans = self._exist(board, word, history_board[:], curX, curY-1, i+1)
                     if ans:
                         return True
+
+                history_board[curY][curX] = False
+
                 return False
 
 
@@ -50,15 +53,18 @@ class Solution(object):
         :type word: str
         :rtype: bool
         """
-        history_board = []
-        for y in range(len(board)):
-            b = []
-            for x in range(len(board[0])):
-                b.append(False)
-            history_board.append(b)
+        def createHistoryBoard():
+            history_board = []
+            for y in range(len(board)):
+                b = []
+                for x in range(len(board[0])):
+                    b.append(False)
+                history_board.append(b)
+            return history_board
 
         for y in range(len(board)):
             for x in range(len(board[0])):
+                history_board = createHistoryBoard()
                 ans = self._exist(board, word, history_board, x, y, 0)
                 if ans:
                     return True
