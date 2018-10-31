@@ -25,19 +25,19 @@ class Solution(object):
                 nextLetterToLookFor = word[i+1]
                 ans = False
                 if self.isValidPos(board, curX+1, curY, nextLetterToLookFor, history_board):
-                    ans = self._exist(board, word, history_board[:], curX+1, curY, i+1)
+                    ans = self._exist(board, word, history_board, curX+1, curY, i+1)
                     if ans:
                         return True
                 if self.isValidPos(board, curX, curY+1, nextLetterToLookFor, history_board):
-                    ans = self._exist(board, word, history_board[:], curX, curY+1, i+1)
+                    ans = self._exist(board, word, history_board, curX, curY+1, i+1)
                     if ans:
                         return True
                 if self.isValidPos(board, curX-1, curY, nextLetterToLookFor, history_board):
-                    ans = self._exist(board, word, history_board[:], curX-1, curY, i+1)
+                    ans = self._exist(board, word, history_board, curX-1, curY, i+1)
                     if ans:
                         return True
                 if self.isValidPos(board, curX, curY-1, nextLetterToLookFor, history_board):
-                    ans = self._exist(board, word, history_board[:], curX, curY-1, i+1)
+                    ans = self._exist(board, word, history_board, curX, curY-1, i+1)
                     if ans:
                         return True
 
