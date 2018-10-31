@@ -62,10 +62,11 @@ class Solution(object):
                 history_board.append(b)
             return history_board
 
+        history_board = createHistoryBoard()
+
         for y in range(len(board)):
             for x in range(len(board[0])):
-                history_board = createHistoryBoard()
-                ans = self._exist(board, word, history_board, x, y, 0)
+                ans = self._exist(board, word, history_board[:], x, y, 0)
                 if ans:
                     return True
 
