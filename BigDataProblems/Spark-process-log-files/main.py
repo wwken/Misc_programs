@@ -1,0 +1,1 @@
+log_txt = sc.textFile("/Users/ken/sample.log")
