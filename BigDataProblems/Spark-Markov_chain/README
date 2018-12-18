@@ -1,0 +1,35 @@
+Given a list of length N containing K discrete values, and where a transition is considered the left-to-#right sequence (e.g. [A, B, C, A] = [A -> B -> C -> A]). write a spark processing code that builds and returns a markov #transition matrix
+
+#input
+#markov_chain = ['d', 'a', 'a', 'k', 'j', 's', 's', 'k', 'a', 'd', 'j', 'd', 'j', 'k', 'd', 'k', 's', 'j', 'j', 'd', 'a', 's', 'a']
+
+#output
+
+--------k-- --d-- --j-- --a-- --s--
+--k-- 00.0% 25.0% 25.0% 25.0% 25.0%
+--d-- 20.0% 00.0% 40.0% 40.0% 00.0%
+--j-- 20.0% 40.0% 20.0% 00.0% 20.0%
+--a-- 25.0% 25.0% 00.0% 25.0% 25.0%
+--s-- 25.0% 00.0% 25.0% 25.0% 25.0%
+
+From the output, the table means, from 'k' to 'd', it happens 25% (i.e., 1 out of 4).  Likewise, from 'j' to 'k', it happens 20% and so on...etc
+
+
+Markov_chain chain definitions:
+https://en.wikipedia.org/wiki/Markov_chain
+
+-- Step to run:
+1) Prepare a computing cluster with Spark and HDFS installed
+
+2) Import the ./sample_input/data.csv to the hdfs file system 
+
+3) Deploy the markov_chain.py to the master node of the computer cluster in step 1
+
+4) Run the script as:  
+	```
+	/usr/local/spark/bin/spark-submit ./try.py
+	```
+
+
+-- Notes:
+1) The program is being tested thoroughly under Hadoop 2.7.6 and Spark 2.3.0 versions
