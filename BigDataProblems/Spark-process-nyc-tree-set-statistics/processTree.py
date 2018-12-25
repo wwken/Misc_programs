@@ -1,3 +1,8 @@
+# Author: Ken Wu
+# Date: 2018-09-15
+
+# This pyspark program mainly demostrate the usage of the dataframe and the pyspark udf function examples that i encountered at work. 
+
 from pyspark import SparkContext
 from pyspark.sql import SQLContext
 from functools import reduce
@@ -5,8 +10,6 @@ import pandas as pd
 import numpy as np
 from pyspark.sql.functions import col, collect_list, udf
 from pyspark.sql.types import StringType
-
-# This PySpark job is to take the input data from: https://data.cityofnewyork.us/Environment/2015-Street-Tree-Census-Tree-Data/pi5s-9p35 and group by date and block id to find the individual sum
 
 sc = SparkContext('local','example')  # if using locally
 sql_sc = SQLContext(sc)
