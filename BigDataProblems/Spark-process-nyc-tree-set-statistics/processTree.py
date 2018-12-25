@@ -10,7 +10,7 @@ from pyspark.sql import SQLContext
 from functools import reduce
 import pandas as pd
 import numpy as np
-from pyspark.sql.functions import col, collect_list, udf
+from pyspark.sql.functions import collect_list, udf
 from pyspark.sql.types import StringType
 import time
 
@@ -45,11 +45,27 @@ def run_spark_job(sc):
         output_str = reduce(lambda x,y: x+', '+y, s)
         return "{} {}".format(count, output_str)
 
+    def read_csv_in_chunk(input_file):
+        def optimize_chunk(chunk, column_names):
+            for n in column_names:
+                chunk[n] = chunk[n].astype('category')
+            return chunk
+
+        df = pd.DataFrame()
+        chunk_size = 50000
+        for idx, chunk in enumerate(pd.read_csv(input_file, sep=",", delimiter=",", chunksize=chunk_size)):   # assuming the file contains a header
+            print("Reading the csv input in chunk index: {} on chunk_size: {} ".format(idx, chunk_size))
+            # optimize the rows by changing it to category type
+            chunk = optimize_chunk(chunk, ['trnk_wire', 'trnk_light', 'trnk_other', 'state', 'root_grate', 'root_other', 'root_stone', 'sidewalk', 'health', 'curb_loc', 'brnch_ligh', 'brnch_othe', 'brnch_shoe', 'guards',
+                                           'user_type', 'status', 'steward', 'boroname', 'zip_city'])
+            df = pd.concat([df, chunk], ignore_index=True)
+        return df
+
     printSparkConfigurations()
 
     input_file = './2015StreetTreesCensus_TREES.csv'
     # input_file = './2015StreetTreesCensus_TREES_small.csv'
-    pandas_df = pd.read_csv(input_file, sep=",", delimiter=",")  # assuming the file contains a header
+    pandas_df = read_csv_in_chunk(input_file)
 
     pandas_df = pandas_df.replace(np.nan, '', regex=True)   # there are some empty columns (internally interpreted as nan inside dataframe) in the file that caused exceptions so need to map it to an empty string
     pandas_df = pandas_df[['created_at', 'block_id', 'spc_common']]
