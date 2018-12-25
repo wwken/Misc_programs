@@ -12,21 +12,24 @@ import pandas as pd
 import numpy as np
 from pyspark.sql.functions import col, collect_list, udf
 from pyspark.sql.types import StringType
-import logging
 import time
 
 app_name = 'Spark-process-nyc-tree-set-statistics'
-logger = logging.getLogger(app_name)
 
 ###############################################################################################################
 ## main-program:
 ###############################################################################################################
 
-def run_spark_job():
+def run_spark_job(sc):
 
     ###############################################################################################################
     ## utility functions:
     ###############################################################################################################
+
+    def print_df(df):
+        outout = df.collect()
+        for o in outout:
+            print(o)
 
     # print spark configurations
     def printSparkConfigurations():
@@ -35,52 +38,58 @@ def run_spark_job():
 
     # Use udf to define a row-at-a-time udf
     def myFunc(data_list):
-        count = len(data_list)
-        output = reduce(lambda x, y: x + ',' + y, data_list)
-        return "{} {}".format(count, output)
-
-    sql_sc = SQLContext(SparkContext('local',app_name))
+        s = set()
+        for d in data_list:
+            s.add(d)
+        count = len(s)
+        output_str = reduce(lambda x,y: x+', '+y, s)
+        return "{} {}".format(count, output_str)
 
     printSparkConfigurations()
 
-    # input_file = './2015StreetTreesCensus_TREES.csv'
-    input_file = './2015StreetTreesCensus_TREES_small.csv'
+    input_file = './2015StreetTreesCensus_TREES.csv'
+    # input_file = './2015StreetTreesCensus_TREES_small.csv'
     pandas_df = pd.read_csv(input_file, sep=",", delimiter=",")  # assuming the file contains a header
-
-    pandas_df.repartition('created_at')     # optimization trick !
 
     pandas_df = pandas_df.replace(np.nan, '', regex=True)   # there are some empty columns (internally interpreted as nan inside dataframe) in the file that caused exceptions so need to map it to an empty string
     pandas_df = pandas_df[['created_at', 'block_id', 'spc_common']]
 
-    pandas_df = sql_sc.createDataFrame(pandas_df)
+    pandas_df = sc.createDataFrame(pandas_df)
+
+    # pandas_df.repartition(400, 'created_at')     # optimization trick !
 
     created_at_block_id_summaries = pandas_df.groupby(['created_at', 'block_id'])
 
     myUdf = udf(myFunc, StringType())
 
-    created_at_block_id_summaries = created_at_block_id_summaries.agg(collect_list('spc_common').alias('spc_common')).withColumn('spc_common', myUdf('spc_common'))
+    created_at_block_id_summaries_df = created_at_block_id_summaries.agg(collect_list('spc_common').alias('spc_common')).withColumn('spc_common', myUdf('spc_common'))
 
     # created_at_block_id_summaries.head(50)  # take the first 100 rows
 
-    created_at_block_id_summaries.show()
+    print_df(created_at_block_id_summaries_df)
 
-def simulate_component(compID, run_f):
+
+def simulate_component(sc, compID, run_f, env=None):
+    # log4jLogger = sc._jvm.org.apache.log4j
+    # logger = log4jLogger.LogManager.getLogger(compID)
     """
     Do simulation for the specified foreground component.
     """
-    logger.info("==================================================")
-    logger.info(">>> Simulate component: %s <<<" % compID)
-    logger.info("==================================================")
+    print("==================================================")
+    print(">>> Simulate component: %s at %s <<<" % (compID, env))
+    print("==================================================")
     t1_start = time.perf_counter()
     t2_start = time.process_time()
 
-    run_f()
+    run_f(sc)
 
     t1_stop = time.perf_counter()
     t2_stop = time.process_time()
-    logger.info("--------------------------------------------------")
-    logger.info("Elapsed time: %.1f [min]" % ((t1_stop - t1_start) / 60))
-    logger.info("CPU process time: %.1f [min]" % ((t2_stop - t2_start) / 60))
-    logger.info("--------------------------------------------------")
+    print("--------------------------------------------------")
+    print("Elapsed time: %.1f [min]" % ((t1_stop - t1_start) / 60))
+    print("CPU process time: %.1f [min]" % ((t2_stop - t2_start) / 60))
+    print("--------------------------------------------------")
 
-simulate_component(app_name, run_spark_job)
+env = "Ken's MBP"
+sc = SQLContext(SparkContext('local',app_name))
+simulate_component(sc, app_name, run_spark_job, env)
