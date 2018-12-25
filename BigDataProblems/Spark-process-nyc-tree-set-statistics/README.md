@@ -11,5 +11,7 @@ The screenshot can be referred in the screenshot folder.
     
 2) Have the spark cluster ready.  For example, I used this Spark-ML-Vagrant vm for experiments to run: https://github.com/paulovn/ml-vm-notebook/
 
-3) Run the processTree.py by doing spark-submit --queue default ./src/processTree.py 
-
+3) Run the processTree.py by doing 
+```
+spark-submit --queue default ./src/processTree.py 
+```
