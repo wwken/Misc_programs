@@ -1,7 +1,8 @@
 # Author: Ken Wu
 # Date: 2018-09-15
 
-# This pyspark program mainly demostrate the usage of the dataframe and the pyspark udf function examples that i encountered at work. 
+# This pyspark program mainly demostrate the usage of the dataframe and the pyspark udf function examples that i encountered at work.
+#  The dataset that this program was using had been changed to public data instead
 
 from pyspark import SparkContext
 from pyspark.sql import SQLContext
