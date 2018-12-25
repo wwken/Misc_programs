@@ -26,9 +26,12 @@ def run_spark_job(sc):
     ## utility functions:
     ###############################################################################################################
 
-    def print_df(df):
+    def print_df(df, only_display=100):
         outout = df.collect()
-        for o in outout:
+        for idx, o in enumerate(outout):
+            if idx > only_display:
+                print(' And more ...')
+                break
             print(o)
 
     # print spark configurations
@@ -72,17 +75,17 @@ def run_spark_job(sc):
 
     pandas_df = sc.createDataFrame(pandas_df)
 
-    # pandas_df.repartition(400, 'created_at')     # optimization trick !
-
-    created_at_block_id_summaries = pandas_df.groupby(['created_at', 'block_id'])
+    pandas_df.repartition(5000, 'created_at')     # optimization trick !
 
     myUdf = udf(myFunc, StringType())
 
-    created_at_block_id_summaries_df = created_at_block_id_summaries.agg(collect_list('spc_common').alias('spc_common')).withColumn('spc_common', myUdf('spc_common'))
+    created_at_block_id_summaries = pandas_df.groupby(['created_at', 'block_id']).agg(collect_list('spc_common').alias('spc_common')).withColumn('spc_common', myUdf('spc_common'))
 
-    # created_at_block_id_summaries.head(50)  # take the first 100 rows
+    print_df(created_at_block_id_summaries)
 
-    print_df(created_at_block_id_summaries_df)
+    block_id_created_at_summaries = pandas_df.groupby(['block_id', 'created_at']).agg(collect_list('spc_common').alias('spc_common')).withColumn('spc_common', myUdf('spc_common'))
+
+    print_df(block_id_created_at_summaries)
 
 
 def simulate_component(sc, compID, run_f, env=None):
