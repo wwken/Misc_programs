@@ -20,7 +20,7 @@ app_name = 'Spark-process-nyc-tree-set-statistics'
 ## main-program:
 ###############################################################################################################
 
-def run_spark_job(sc):
+def run_spark_job(sc, run_N_times = 1):
 
     ###############################################################################################################
     ## utility functions:
@@ -68,27 +68,28 @@ def run_spark_job(sc):
 
     input_file = './2015StreetTreesCensus_TREES.csv'
     # input_file = './2015StreetTreesCensus_TREES_small.csv'
-    pandas_df = read_csv_in_chunk(input_file)
+    pandas_df_raw = read_csv_in_chunk(input_file)
 
-    pandas_df = pandas_df.replace(np.nan, '', regex=True)   # there are some empty columns (internally interpreted as nan inside dataframe) in the file that caused exceptions so need to map it to an empty string
-    pandas_df = pandas_df[['created_at', 'block_id', 'spc_common']]
+    for i in range(run_N_times):
+        pandas_df = pandas_df_raw.replace(np.nan, '', regex=True)   # there are some empty columns (internally interpreted as nan inside dataframe) in the file that caused exceptions so need to map it to an empty string
+        pandas_df = pandas_df[['created_at', 'block_id', 'spc_common']]
 
-    pandas_df = sc.createDataFrame(pandas_df)
+        pandas_df = sc.createDataFrame(pandas_df)
 
-    pandas_df.repartition(5000, 'created_at')     # optimization trick !
+        pandas_df.repartition(5000, 'created_at')     # optimization trick !
 
-    myUdf = udf(myFunc, StringType())
+        myUdf = udf(myFunc, StringType())
 
-    created_at_block_id_summaries = pandas_df.groupby(['created_at', 'block_id']).agg(collect_list('spc_common').alias('spc_common')).withColumn('spc_common', myUdf('spc_common'))
+        created_at_block_id_summaries = pandas_df.groupby(['created_at', 'block_id']).agg(collect_list('spc_common').alias('spc_common')).withColumn('spc_common', myUdf('spc_common'))
 
-    print_df(created_at_block_id_summaries)
+        print_df(created_at_block_id_summaries)
 
-    block_id_created_at_summaries = pandas_df.groupby(['block_id', 'created_at']).agg(collect_list('spc_common').alias('spc_common')).withColumn('spc_common', myUdf('spc_common'))
+        block_id_created_at_summaries = pandas_df.groupby(['block_id', 'created_at']).agg(collect_list('spc_common').alias('spc_common')).withColumn('spc_common', myUdf('spc_common'))
 
-    print_df(block_id_created_at_summaries)
+        print_df(block_id_created_at_summaries)
 
 
-def simulate_component(sc, compID, run_f, env=None):
+def simulate_component(sc, compID, run_f, env=None, run_N_times = 1):
     # log4jLogger = sc._jvm.org.apache.log4j
     # logger = log4jLogger.LogManager.getLogger(compID)
     """
@@ -100,7 +101,7 @@ def simulate_component(sc, compID, run_f, env=None):
     t1_start = time.perf_counter()
     t2_start = time.process_time()
 
-    run_f(sc)
+    run_f(sc, run_N_times)
 
     t1_stop = time.perf_counter()
     t2_stop = time.process_time()
@@ -111,4 +112,5 @@ def simulate_component(sc, compID, run_f, env=None):
 
 env = "Ken's MBP"
 sc = SQLContext(SparkContext('local',app_name))
-simulate_component(sc, app_name, run_spark_job, env)
+run_N_times = 20
+simulate_component(sc, app_name, run_spark_job, env, run_N_times)
