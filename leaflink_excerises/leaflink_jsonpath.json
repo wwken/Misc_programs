@@ -12,7 +12,7 @@
 		"$['BurnIn']",
 		"$['IsValidUA']",
 		"$['User_Key']",
-		"$['IsNew']",
+		"$['User_IsNew']",
 		"$['UserKey']",
 		"$['ImpressionCount']",
 		"$['Id']",
