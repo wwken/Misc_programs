@@ -1,0 +1,12 @@
+# Adapted From : https://github.com/puckel/docker-airflow
+FROM python:3.7-slim-stretch as airflow-base
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LANGUAGE en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+ENV LC_CTYPE en_US.UTF-8
+ENV LC_MESSAGES en_US.UTF-8
+
+ENV AIRFLOW_USER_HOME=/usr/local/airflow
+
